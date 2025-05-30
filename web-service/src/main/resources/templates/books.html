@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Books</title></head>
+<body>
+<h1>PayU Book Management Assessment</h1>
+
+<div th:if="${success}" th:text="${success}" style="color:green"></div>
+<div th:if="${error}" th:text="${error}" style="color:red"></div>
+    <table border="1">
+        <thead>
+        <a href="/books/add">Add</a>
+            <tr>
+                <th>ISBN</th>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Book Type</th>
+                <th>Price</th>
+                <th>Published Date</th>
+                <th>ACTION</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.isbn}">ISBN</td>
+                <td th:text="${book.name}">Name</td>
+                <td th:text="${book.author}">Author</td>
+                <td th:text="${book.bookType}">Book Type</td>
+                <td th:text="${book.price}">Price</td>
+                <td th:text="${book.publishDate}">Publish Date</td>
+                <td>
+                    <a th:href="@{/books/edit/{isbn}(isbn=${book.isbn})}">Edit</a> |
+                    <a th:href="@{/books/delete/{isbn}(isbn=${book.isbn})}"
+                       onclick="return confirm('Are you sure you want to delete this book?');"
+                       class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

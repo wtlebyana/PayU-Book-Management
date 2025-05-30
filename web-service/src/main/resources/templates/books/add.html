@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Book</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Add New Book</h2>
+    <form th:action="@{/books/add}" th:object="${book}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text"  id="name" th:field="*{name}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="author" class="form-label">Author:</label>
+            <input type="text" id="author" th:field="*{author}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" id="price"  step="0.01" th:field="*{price}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="bookType" class="form-label">Book Type:</label>
+            <select id="bookType" th:field="*{bookType}" class="form-select">
+                <option th:each="type : ${bookTypes}" th:value="${type}" th:text="${type}">Book Type</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="publishDate" class="form-label">Publish Date:</label>
+            <input type="date" id="publishDate" th:field="*{publishDate}" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Book</button>
+    </form>
+</div>
+</body>
+</html>

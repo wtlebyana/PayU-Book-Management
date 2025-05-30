@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  management-service:
+    build:
+      context: ./management-service
+    ports:
+      - "8081:8081"
+    networks:
+      - bookstore-net
+
+  web-service:
+    build:
+      context: ./web-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - management-service
+    networks:
+      - bookstore-net
+
+networks:
+  bookstore-net:
+    driver: bridge
