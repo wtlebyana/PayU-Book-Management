@@ -20,6 +20,7 @@
     </properties>
 
     <modules>
+        <module>bookstore-domain</module>
         <module>management-service</module>
         <module>web-service</module>
     </modules>

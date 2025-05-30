@@ -1,7 +1,6 @@
 package com.bookstore.webservice.service.impl;
 
 import com.bookstore.dto.BookDto;
-import com.bookstore.webservice.dto.BookResponseDto;
 import com.bookstore.webservice.service.WebApiService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
