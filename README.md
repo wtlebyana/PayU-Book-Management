@@ -38,10 +38,9 @@ mvn clean install
 ## How to run
 ---
 ## 1.Run the Management Service
-- cd management-service
 
 ```bash
-
+- cd management-service
 - mvn spring-boot:run
 
 ```
@@ -50,9 +49,9 @@ mvn clean install
 
 ## 2.  Run the Web Service
 - On a new terminal:
-- cd web-service
-
+- 
 ```bash
+- cd web-service
 - mvn spring-boot:run
 
 ```
