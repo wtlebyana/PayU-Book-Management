@@ -18,6 +18,11 @@ A multi-tiered module Spring Boot application for managing a bookstore. It inclu
 
 ---
 
+## 🧪 Running the Application Locally
+1. Clone the Repository
+   git clone https://github.com/wtlebyana/PayU-Book-Management.git
+   cd bookstore-management
+
 ## 🔧 How to Build
 
 From the root project directory (`bookstore-management`):
@@ -30,15 +35,15 @@ mvn clean install
 ## How to run
 ---
 ## 1.Run the Management Service
-cd management-service
-mvn spring-boot:run
+- cd management-service
+- mvn spring-boot:run
 
--The service will start on: http://localhost:8081
+- The service will start on: http://localhost:8081
 
 ## 2.  Run the Web Service
-- In a new terminal:
+- On a new terminal:
 - cd web-service
-  mvn spring-boot:run
+- mvn spring-boot:run
 
 ## The web UI will be available at:
 - http://localhost:8080/books
