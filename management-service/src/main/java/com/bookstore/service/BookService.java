@@ -9,9 +9,9 @@ import java.util.List;
 public interface BookService{
 
     List<BookDto> getAllBooks();
-//    Book getBook(String isbn);
     BookDto saveBook(BookDto bookDto);
     BookDto updateBook(String isbn, BookDto book);
     void deleteBook(String isbn);
+    BookDto getBookByIsbn(String isbn);
 
 }

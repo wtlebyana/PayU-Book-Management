@@ -1,8 +1,9 @@
 package com.bookstore.service.impl;
 
 import com.bookstore.dto.BookDto;
-import com.bookstore.model.Book;
+import com.bookstore.exception.BookNotFoundException;
 import com.bookstore.mapper.BookMapper;
+import com.bookstore.model.Book;
 import com.bookstore.repository.BookRepository;
 import com.bookstore.service.BookService;
 import com.bookstore.util.IsbnGenerator;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -45,13 +47,13 @@ public class BookServiceImpl implements BookService {
         book.setIsbn(isbn);
 
         Book savedBook = repository.save(book);
-        return mapToDto(savedBook);
+        return bookMapper.toDto(savedBook);
     }
 
     @Override
     public BookDto updateBook(String isbn, BookDto dto) {
         Book existing = repository.findByIsbn(isbn)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
+                .orElseThrow(() -> new BookNotFoundException(isbn));
 
         validateBookDto(dto);
 
@@ -68,15 +70,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(String isbn) {
         Book existing = repository.findByIsbn(isbn)
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
+                .orElseThrow(() -> new BookNotFoundException("Book not found with ISBN: " + isbn));
         repository.delete(existing);
+    }
+
+    public BookDto getBookByIsbn(String isbn) {
+        Optional<Book> bookOptional = repository.findByIsbn(isbn);
+        return bookOptional.map(this::convertToDto).orElse(null);
     }
 
 
     private void validateBookDto(BookDto dto) {
         if (dto.getName() == null || dto.getName().trim().isEmpty()
                 || dto.getAuthor() == null || dto.getAuthor().trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid book: missing title or author");
+            throw new IllegalArgumentException("Invalid book: missing name or author");
         }
     }
 
@@ -85,21 +92,20 @@ public class BookServiceImpl implements BookService {
         book.setName(dto.getName());
         book.setIsbn(dto.getIsbn());
         book.setPublishDate(dto.getPublishDate());
+        book.setAuthor(dto.getAuthor());
         book.setPrice(dto.getPrice());
         book.setBookType(dto.getBookType());
         return book;
     }
 
-    private BookDto mapToDto(Book book) {
+    private BookDto convertToDto(Book book) {
         BookDto dto = new BookDto();
-        dto.setName(book.getName());
         dto.setIsbn(book.getIsbn());
-        dto.setPublishDate(book.getPublishDate());
-        dto.setPrice(book.getPrice());
+        dto.setName(book.getName());
+        dto.setAuthor(book.getAuthor());
         dto.setBookType(book.getBookType());
+        dto.setPrice(book.getPrice());
+        dto.setPublishDate(book.getPublishDate());
         return dto;
     }
-
-
-
 }

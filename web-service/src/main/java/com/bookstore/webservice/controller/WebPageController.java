@@ -16,7 +16,7 @@ public class WebPageController {
     @GetMapping("/books")
     public String listBooks(Model model) {
         model.addAttribute("books", webApiService.getAllBooks());
-        model.addAttribute("bookTypes", BookType.values());  // Pass enum values
+        model.addAttribute("bookTypes", BookType.values());
 
         return "books";
     }
@@ -24,7 +24,7 @@ public class WebPageController {
     @GetMapping("/books/add")
     public String showAddForm(Model model) {
         model.addAttribute("book", new BookDto());
-        model.addAttribute("bookTypes", BookType.values());  // Pass enum values
+        model.addAttribute("bookTypes", BookType.values());
 
         return "books/add";
     }
@@ -43,19 +43,17 @@ public class WebPageController {
 
     @GetMapping("/books/edit/{isbn}")
     public String showEditForm(@PathVariable String isbn, Model model, RedirectAttributes redirectAttributes) {
-        System.out.println("Received ISBN: " + isbn); // add this to debug
-
         BookDto book = webApiService.getBookByIsbn(isbn);
         if (book == null) {
             redirectAttributes.addFlashAttribute("error", "Book not found.");
             return "redirect:/books";
         }
         model.addAttribute("book", book);
+        model.addAttribute("bookTypes", BookType.values());
         return "books/edit";
     }
 
-
-    @PutMapping("books/update/{isbn}")
+    @PostMapping("/books/update/{isbn}")
     public String updateBook(
             @PathVariable String isbn,
             @ModelAttribute("book") BookDto bookDto,

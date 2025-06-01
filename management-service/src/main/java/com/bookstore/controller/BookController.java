@@ -1,6 +1,7 @@
 package com.bookstore.controller;
 
 import com.bookstore.dto.BookDto;
+import com.bookstore.exception.BookNotFoundException;
 import com.bookstore.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,35 @@ public class BookController {
         return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{isbn}")
+    @PutMapping("/update/{isbn}")
     public ResponseEntity<BookDto> updateBook(@PathVariable String isbn, @RequestBody BookDto dto) {
-        BookDto updatedBook = service.updateBook(isbn, dto);
-        return ResponseEntity.ok(updatedBook);
+        if (dto.getIsbn() != null && !isbn.equals(dto.getIsbn())) {
+            // ISBN in path and body don't match — respond with Bad Request
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            BookDto updatedBook = service.updateBook(isbn, dto);
+            if (updatedBook == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(updatedBook);
+        } catch (BookNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+
+    @GetMapping("/{isbn}")
+    public ResponseEntity<BookDto> getBookByIsbn(@PathVariable String isbn) {
+        BookDto bookDto = service.getBookByIsbn(isbn);
+        if (bookDto != null) {
+            return ResponseEntity.ok(bookDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @DeleteMapping("/{isbn}")
     public ResponseEntity<Void> deleteBook(@PathVariable String isbn) {

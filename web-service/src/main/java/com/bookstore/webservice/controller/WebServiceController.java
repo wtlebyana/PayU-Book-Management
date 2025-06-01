@@ -5,6 +5,7 @@ import com.bookstore.webservice.dto.BookRequestDto;
 import com.bookstore.webservice.dto.BookResponseDto;
 import com.bookstore.webservice.service.WebApiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,16 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/books")
-@RequiredArgsConstructor
+
 public class WebServiceController {
 
     private final WebApiService webApiService;
+    @Autowired
+    public WebServiceController(WebApiService webApiService) {
+        this.webApiService = webApiService;
+    }
 
-    @GetMapping("findAllBooks")
+    @GetMapping("/findAllBooks")
     public ResponseEntity<List<BookResponseDto>> getAllBooks() {
         try {
             List<BookResponseDto> books = webApiService.getAllBooks().stream()
@@ -50,23 +55,18 @@ public class WebServiceController {
         }
     }
 
-    @PutMapping("update/{isbn}")
-    public ResponseEntity<BookResponseDto> updateBook(
+    @PutMapping("/update/{isbn}")
+    public ResponseEntity<BookDto> updateBook(
             @PathVariable String isbn,
-            @RequestBody BookRequestDto requestDto) {
-        try {
-            BookDto bookDto = mapToDto(requestDto);
-            BookDto updatedBook = webApiService.updateBook(isbn, bookDto);
+            @RequestBody BookRequestDto bookRequestDto) {
 
-            if (updatedBook != null) {
-                return ResponseEntity.ok(mapToResponseDto(updatedBook));
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        BookDto bookDto = mapToDto(bookRequestDto);
+        BookDto updatedBook = webApiService.updateBook(isbn, bookDto);
+
+        if (updatedBook == null) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping("delete/{isbn}")
