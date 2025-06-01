@@ -20,8 +20,8 @@ A multi-tiered module Spring Boot application for managing a bookstore. It inclu
 
 ## 🧪 Running the Application Locally
 1. Clone the Repository
-   git clone https://github.com/wtlebyana/PayU-Book-Management.git
-   cd bookstore-management
+- git clone https://github.com/wtlebyana/PayU-Book-Management.git
+- cd bookstore-management
 
 ## 🔧 How to Build
 
@@ -47,7 +47,8 @@ mvn clean install
 
 ## The web UI will be available at:
 - http://localhost:8080/books
-- 
+
+
 ## ✏️ Features
 - Add, view, update, delete books
 - ISBNs are unique and 13-digit validated
