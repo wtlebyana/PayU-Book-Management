@@ -20,12 +20,15 @@ A multi-tiered module Spring Boot application for managing a bookstore. It inclu
 
 ## 🧪 Running the Application Locally
 1. Clone the Repository
-- git clone https://github.com/wtlebyana/PayU-Book-Management.git
-- cd bookstore-management
 
+```bash
+- git clone https://github.com/wtlebyana/PayU-Book-Management.git
+- cd PayU-Book-Management
+
+```
 ## 🔧 How to Build
 
-From the root project directory (`bookstore-management`):
+From the root project directory (`PayU-Book-Management`):
 
 ```bash
 
