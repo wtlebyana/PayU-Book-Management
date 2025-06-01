@@ -39,14 +39,23 @@ mvn clean install
 ---
 ## 1.Run the Management Service
 - cd management-service
+
+```bash
+
 - mvn spring-boot:run
+
+```
 
 - The service will start on: http://localhost:8081
 
 ## 2.  Run the Web Service
 - On a new terminal:
 - cd web-service
+
+```bash
 - mvn spring-boot:run
+
+```
 
 ## The web UI will be available at:
 - http://localhost:8080/books
